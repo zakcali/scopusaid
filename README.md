@@ -13,3 +13,9 @@ you must write your own scopus api-key in two lines of code
 ```
 'X-ELS-APIKey: your-api-key'));
 ```
+you can find more information at:
+
+http://api.elsevier.com/documentation/SCOPUSSearchAPI.wadl 
+
+https://dev.elsevier.com/documentation/AuthorRetrievalAPI.wadl
+
