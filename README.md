@@ -1,6 +1,6 @@
 # scopusaid
 
-fetches information about a researcher by elsevier author api, if Scopus Researcher Id is known:
+Displays information about a researcher by elsevier author api, if Scopus Researcher Id is known:
 
 https://api.elsevier.com/content/author
 
