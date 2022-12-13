@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- scopusaid V1.4: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
+<!-- scopusaid V1.5: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
 programmed by Zafer Akçalı, MD -->
 <html>
 <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script> 
@@ -27,7 +27,8 @@ $yayinlar = "ScopusId\t"."Pub type\t"."Source\t"."Year\t"."Journal/Book Name\t".
 		yayinlariYaz($yayinDizi);
 		if ($i+200>=$sayi)
 			break; // yayınların hepsini aldın, çık
-	}
+		}
+//	var_dump($sidDizi); // debug için
 
 	}
 }
@@ -92,6 +93,7 @@ foreach ($dizi['search-results']['entry'] as $eleman=>$yayin) {
 	$sidDizi[$n]['yazarlar']=substr ($yazarlar,0,-2); // son yazardan sonraki virgül ve boşluğu sil
 	
 	$yayinlar=$yayinlar.$sidDizi[$n]['scopusid']."\t".$sidDizi [$n]['PublicationType']."\t".$sidDizi[$n]['PublicationAccess']."\t".$sidDizi[$n]['Year']."\t".$sidDizi[$n]['dergi']."\t".$sidDizi[$n]['ISSN']."\t".$sidDizi[$n]['eISSN']."\t".$sidDizi[$n]['ISBN']."\t".$sidDizi[$n]['ArticleTitle']."\t".$sidDizi[$n]['Volume']."\t".$sidDizi[$n]['Issue']."\t".$sidDizi[$n]['doi']."\t".$sidDizi[$n]['PMID']."\t".$sidDizi[$n]['StartPage']."\t".$sidDizi[$n]['EndPage']."\t".$sidDizi[$n]['yazarS']."\t".$sidDizi[$n]['yazarlar']."\n";
+	$n=$n+1;
 	}
 // echo $yayinlar;
 }
@@ -112,7 +114,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Accept: application/json',
-    'X-ELS-APIKey: your_api_key'));
+    'X-ELS-APIKey: your-api-key'));
 $data=curl_exec($ch);
 curl_close($ch);
 $scopusBilgi=(json_decode($data, true));
@@ -143,7 +145,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Accept: application/json',
-    'X-ELS-APIKey: your_api_key'));
+    'X-ELS-APIKey: your-api-key'));
 $data=curl_exec($ch);
 curl_close($ch);
 $scopusBilgi=(json_decode($data, true));
