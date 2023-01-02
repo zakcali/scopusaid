@@ -2,7 +2,7 @@
 set_time_limit(60); 
 
 class getSaidPublications {
-	public $authorId='', $authorOrcid='', $ad='', $soyad='', $yayinlar='';
+	public $authorId='', $authorOrcid='', $ad='', $soyad='', $yayinlar='', $dikkat='';
 	public $sayi=0;
 	public $sidDizi = array (); // scopus id bilinen bir kişinin yayınları
 	private $n=0; // said dizisinin satır sayısı
@@ -24,6 +24,7 @@ class getSaidPublications {
 					}
 //	var_dump($sidDizi); // debug için
 				} // yazar bilgisi geldi yapılacaklar yukarıda yapıldı
+				else $this->dikkat = 'yazar bulunamadı';
 			}
 	}	// final function saidPublication 
 	
@@ -41,7 +42,7 @@ class getSaidPublications {
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Accept: application/json',
-    'X-ELS-APIKey: Your-API-KEY'));
+    'X-ELS-APIKey: your-API-KEY'));
 	$data=curl_exec($ch);
 	curl_close($ch);
 	$scopusBilgi=(json_decode($data, true));
@@ -75,7 +76,7 @@ class getSaidPublications {
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Accept: application/json',
-    'X-ELS-APIKey: Your-API-KEY'));
+    'X-ELS-APIKey: your-API-KEY'));
 	$data=curl_exec($ch);
 	curl_close($ch);
 	$scopusBilgi=(json_decode($data, true));
