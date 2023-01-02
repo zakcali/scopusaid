@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- scopusaid V2.0: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
+<!-- scopusaid V2.1: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
 programmed by Zafer Akçalı, MD -->
 <html>
 <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script> 
@@ -13,30 +13,30 @@ programmed by Zafer Akçalı, MD -->
 set_time_limit(60); 
 
 require_once './getSaidPublications.php';
-$sp=new getSaidPublications ();
+$sa=new getSaidPublications ();
 if (isset($_POST['aid'])) {
 	$gelenId=preg_replace("/[^0-9]/", "", $_POST['aid']); // Sadece rakamlar
-	$sp->saidPublication ($gelenId);	
-// print_r ($sp->sidDizi);
+	$sa->saidPublication ($gelenId);	
+// print_r ($sa->sidDizi);
 }
 
 ?>
 <a href="Scopus aid nerede.png" target="_blank"> Scopus AuthorId nereden bakılır? </a>
 <form method="post" action="">
-Scopus aid  giriniz<br/>
-<input type="text" name="aid" id="aid" value="<?php echo $sp->authorId;?>" >
+Scopus aid  giriniz. <?php echo ' '.$sa->dikkat;?><br/>
+<input type="text" name="aid" id="aid" value="<?php echo $sa->authorId;?>" >
 <input type="submit" value="Yazar bilgilerini PHP ile getir">
 </form>
 <button id="scopusGoster" onclick="scopusGoster()">Scopus profil sayfasını göster</button>
 <button id="scopusAtifGoster" onclick="scopusAtifGoster()">Scopus atıflarını göster</button> <br>
 <button id="saveTxtBtn" onclick="saveTxtFunction()">csv olarak kaydet</button><br> 
-Ad: <input type="text" name="ad" size="16"  id="ad" value="<?php echo $sp->ad;?>"> 
-Soyad: <input type="text" name="soyad" size="20"  id="soyad" value="<?php echo $sp->soyad;?>"> 
-ORCID: <input type="text" name="ORCID" size="20"  id="ORCID" value="<?php echo $sp->authorOrcid;?>"><br>
-AuthorId: <input type="text" name="said" size="12"  id="said" value="<?php echo $sp->authorId;?>"> 
-Yayın sayısı: <input type="text" name="sayi" size="6"  id="sayi" value="<?php echo $sp->sayi;?>"> <br>
+Ad: <input type="text" name="ad" size="16"  id="ad" value="<?php echo $sa->ad;?>"> 
+Soyad: <input type="text" name="soyad" size="20"  id="soyad" value="<?php echo $sa->soyad;?>"> 
+ORCID: <input type="text" name="ORCID" size="20"  id="ORCID" value="<?php echo $sa->authorOrcid;?>"><br>
+AuthorId: <input type="text" name="said" size="12"  id="said" value="<?php echo $sa->authorId;?>"> 
+Yayın sayısı: <input type="text" name="sayi" size="6"  id="sayi" value="<?php echo $sa->sayi;?>"> <br>
 Yayınlar<br>
-<textarea rows = "20" cols = "90" name = "yayinlar"  wrap="off" id="yayinlar"><?php echo $sp->yayinlar;?></textarea>  <br>
+<textarea rows = "20" cols = "90" name = "yayinlar"  wrap="off" id="yayinlar"><?php echo $sa->yayinlar;?></textarea>  <br>
 <script>
 function saveTxtFunction() {
 var blob = new Blob([document.getElementById('yayinlar').value],
