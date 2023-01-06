@@ -10,23 +10,23 @@ class getSaidPublications {
 	function __construct() {
 		}
 	final function saidPublication ($said) {
-		if(($said)!=''){
-			$yazar=$this->yazarBilgisiAl($said); // true veya false
-			if ($yazar) { // yazar bilgisi geldi
-				$this->yayinlar = "ScopusId\t"."Pub type\t"."Source\t"."Year\t"."Journal/Book Name\t"."issn\t"."eissn\t"."isbn\t"."Title\t"."Vol.\t"."Issue\t"."doi\t"."PMID\t"."Page.S\t"."Page.E\t"."Auth.#\t"."Authors\n";
-				for ($i=0; $i>-1; $i=$i+200) {
-					$yayinDizi=$this->yayinlariAl($said,$i,200);
-					$this->sayi=(int)$yayinDizi['search-results']['opensearch:totalResults'];
+
+	$yazar=$this->yazarBilgisiAl($said); // true veya false
+	if (!$yazar) {
+		$this->dikkat = 'yazar bulunamadı';
+		return;
+		}
+	$this->yayinlar = "ScopusId\t"."Pub type\t"."Source\t"."Year\t"."Journal/Book Name\t"."issn\t"."eissn\t"."isbn\t"."Title\t"."Vol.\t"."Issue\t"."doi\t"."PMID\t"."Page.S\t"."Page.E\t"."Auth.#\t"."Authors\n";
+	for ($i=0; $i>-1; $i=$i+200) {
+		$yayinDizi=$this->yayinlariAl($said,$i,200);
+		$this->sayi=(int)$yayinDizi['search-results']['opensearch:totalResults'];
 //		echo ' i ve sayı='.$i.' '.$this->sayi; // for debugging
-					$this->yayinlariYaz($yayinDizi);
-					if ($i+200>=$this->sayi)
-						break; // yayınların hepsini aldın, çık
-					}
-//	var_dump($sidDizi); // debug için
-				} // yazar bilgisi geldi yapılacaklar yukarıda yapıldı
-				else $this->dikkat = 'yazar bulunamadı';
+		$this->yayinlariYaz($yayinDizi);
+			if ($i+200>=$this->sayi)
+				break; // yayınların hepsini aldın, çık
 			}
-	}	// final function saidPublication 
+//	var_dump($sidDizi); // debug için
+}	// final function saidPublication 
 	
 	private function yazarBilgisiAl($id) {
 	$preText='https://api.elsevier.com/content/author?author_id=';
@@ -46,6 +46,9 @@ class getSaidPublications {
 	$data=curl_exec($ch);
 	curl_close($ch);
 	$scopusBilgi=(json_decode($data, true));
+	if (!isset($scopusBilgi['author-retrieval-response'][0]['coredata']['eid'])) // böyle bir yazar yok 
+		return false;
+	$this->authorId=$id;
 // print_r ($scopusBilgi);
 	if (isset($scopusBilgi['author-retrieval-response'][0]['coredata']['orcid']))
 		$this->authorOrcid=$scopusBilgi['author-retrieval-response'][0]['coredata']['orcid'];
@@ -53,11 +56,7 @@ class getSaidPublications {
 		$this->ad=$scopusBilgi['author-retrieval-response'][0]['preferred-name']['given-name'];
 	if (isset($scopusBilgi['author-retrieval-response'][0]['preferred-name']['surname']))
 		$this->soyad=$scopusBilgi['author-retrieval-response'][0]['preferred-name']['surname'];
-	if (isset($scopusBilgi['author-retrieval-response'][0]['coredata']['eid'])) {
-			$this->authorId=$id;
-			return (true); // yazarın scopus id bilgisi geldi
-		}
-	else return (false);	// böyle bir yazar yok
+	return true;	
 	}
 	
 	private function yayinlariAl($id,$ilk,$adet) {
