@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- scopusaid V2.1: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
+<!-- scopusaid V2.2: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
 programmed by Zafer Akçalı, MD -->
 <html>
 <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script> 
@@ -12,11 +12,12 @@ programmed by Zafer Akçalı, MD -->
 <?php
 set_time_limit(60); 
 
-require_once './getSaidPublications.php';
+require_once 'getSaidPublications.php';
 $sa=new getSaidPublications ();
 if (isset($_POST['aid'])) {
 	$gelenId=preg_replace("/[^0-9]/", "", $_POST['aid']); // Sadece rakamlar
-	$sa->saidPublication ($gelenId);	
+	if ($gelenId !== '')
+		$sa->saidPublication ($gelenId);	
 // print_r ($sa->sidDizi);
 }
 
