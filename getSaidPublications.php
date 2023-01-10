@@ -2,15 +2,18 @@
 set_time_limit(60); 
 
 class getSaidPublications {
-	public $authorId='', $authorOrcid='', $ad='', $soyad='', $yayinlar='', $dikkat='';
-	public $sayi=0;
-	public $sidDizi = array (); // scopus id bilinen bir kişinin yayınları
-	private $n=0; // said dizisinin satır sayısı
-
+	private $n; // said dizisinin satır sayısı
 	function __construct() {
+		$this->initialize();
 		}
+	function initialize () {
+		$this->authorId=''; $this->authorOrcid=''; $this->ad=''; $this->soyad=''; $this->yayinlar=''; $this->dikkat=''; 
+		$this->sidDizi = array (); // scopus id bilinen bir kişinin yayınları
+		$this->sayi=0; $this->n=0;
+		}
+		
 	final function saidPublication ($said) {
-
+	$this->initialize();
 	$yazar=$this->yazarBilgisiAl($said); // true veya false
 	if (!$yazar) {
 		$this->dikkat = 'yazar bulunamadı';
@@ -25,7 +28,7 @@ class getSaidPublications {
 			if ($i+200>=$this->sayi)
 				break; // yayınların hepsini aldın, çık
 			}
-//	var_dump($sidDizi); // debug için
+//	var_dump($this->sidDizi); // debug için
 }	// final function saidPublication 
 	
 	private function yazarBilgisiAl($id) {
