@@ -16,7 +16,6 @@ class getSaidPublications {
 	$this->initialize();
 	$yazar=$this->yazarBilgisiAl($said); // true veya false
 	if (!$yazar) {
-		$this->dikkat = 'yazar bulunamadı';
 		return;
 		}
 	$this->yayinlar = "ScopusId\t"."Pub type\t"."Source\t"."Year\t"."Journal/Book Name\t"."issn\t"."eissn\t"."isbn\t"."Title\t"."Vol.\t"."Issue\t"."doi\t"."PMID\t"."Page.S\t"."Page.E\t"."Auth.#\t"."Authors\n";
@@ -45,14 +44,23 @@ class getSaidPublications {
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Accept: application/json',
-    'X-ELS-APIKey: your-API-KEY'));
+    'X-ELS-APIKey: your API-KEY'));
 	$data=curl_exec($ch);
 	curl_close($ch);
+
 	$scopusBilgi=(json_decode($data, true));
-	if (!isset($scopusBilgi['author-retrieval-response'][0]['coredata']['eid'])) // böyle bir yazar yok 
-		return false;
-	$this->authorId=$id;
 // print_r ($scopusBilgi);
+	if ( isset ($scopusBilgi['error-response'])) {
+		$this->dikkat = 'siteye bağlanamadı'; // message:Forbidden
+		return false;	}
+	if ( isset ($scopusBilgi['service-error'])) {
+		$this->dikkat = 'siteye bağlanamadı'; //  AUTHORIZATION_ERROR
+		return false;	}
+	if (!isset($scopusBilgi['author-retrieval-response'][0]['coredata']['eid'])) { // böyle bir yazar yok 
+		$this->dikkat = 'yazar bulunamadı';
+		return false;
+	}
+	$this->authorId=$id;
 	if (isset($scopusBilgi['author-retrieval-response'][0]['coredata']['orcid']))
 		$this->authorOrcid=$scopusBilgi['author-retrieval-response'][0]['coredata']['orcid'];
 	if (isset($scopusBilgi['author-retrieval-response'][0]['preferred-name']['given-name']))
