@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- scopusaid V2.2: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
+<!-- scopusaid V2.3: bu yazılım Dr. Zafer Akçalı tarafından oluşturulmuştur 
 programmed by Zafer Akçalı, MD -->
 <html>
 <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script> 
