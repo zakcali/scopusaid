@@ -7,7 +7,7 @@ class getSaidPublications {
 		$this->initialize();
 		}
 	function initialize () {
-		$this->authorId=''; $this->authorOrcid=''; $this->ad=''; $this->soyad=''; $this->yayinlar=''; $this->dikkat=''; 
+		$this->authorId=''; $this->authorOrcid=''; $this->ad=''; $this->soyad=''; $this->yayinlar=''; $this->yayinS=''; $this->atifS=''; $this->hindex=''; $this->dikkat=''; 
 		$this->sidDizi = array (); // scopus id bilinen bir kişinin yayınları
 		$this->sayi=0; $this->n=0;
 		}
@@ -33,7 +33,7 @@ class getSaidPublications {
 	private function yazarBilgisiAl($id) {
 	$preText='https://api.elsevier.com/content/author?author_id=';
 // https://dev.elsevier.com/sc_author_retrieval_views.html
-	$postText='&view=light'; 
+	$postText='&view=enhanced'; // basic, metrics, light, standard, enhanced
 	$url = $preText.$id.$postText;
 	$proxy = 'proxy.a.edu.b:c';
 	$proxyauth = 'xx:yy';
@@ -44,12 +44,12 @@ class getSaidPublications {
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Accept: application/json',
-    'X-ELS-APIKey: your API-KEY'));
+    'X-ELS-APIKey: your-API-KEY'));
 	$data=curl_exec($ch);
 	curl_close($ch);
 
 	$scopusBilgi=(json_decode($data, true));
-// print_r ($scopusBilgi);
+ // print_r ($scopusBilgi);
 	if ( isset ($scopusBilgi['error-response'])) {
 		$this->dikkat = 'siteye bağlanamadı'; // message:Forbidden
 		return false;	}
@@ -63,10 +63,16 @@ class getSaidPublications {
 	$this->authorId=$id;
 	if (isset($scopusBilgi['author-retrieval-response'][0]['coredata']['orcid']))
 		$this->authorOrcid=$scopusBilgi['author-retrieval-response'][0]['coredata']['orcid'];
-	if (isset($scopusBilgi['author-retrieval-response'][0]['preferred-name']['given-name']))
-		$this->ad=$scopusBilgi['author-retrieval-response'][0]['preferred-name']['given-name'];
-	if (isset($scopusBilgi['author-retrieval-response'][0]['preferred-name']['surname']))
-		$this->soyad=$scopusBilgi['author-retrieval-response'][0]['preferred-name']['surname'];
+	if (isset($scopusBilgi['author-retrieval-response'][0]['coredata']['document-count']))
+		$this->yayinS=$scopusBilgi['author-retrieval-response'][0]['coredata']['document-count'];
+	if (isset($scopusBilgi['author-retrieval-response'][0]['coredata']['cited-by-count']))
+		$this->atifS=$scopusBilgi['author-retrieval-response'][0]['coredata']['cited-by-count'];
+	if (isset($scopusBilgi['author-retrieval-response'][0]['h-index'])) // enhanced or metrics view
+		$this->hindex=$scopusBilgi['author-retrieval-response'][0]['h-index'];
+	if (isset($scopusBilgi['author-retrieval-response'][0]['author-profile']['preferred-name']['given-name']))
+		$this->ad=$scopusBilgi['author-retrieval-response'][0]['author-profile']['preferred-name']['given-name'];
+	if (isset($scopusBilgi['author-retrieval-response'][0]['author-profile']['preferred-name']['surname']))
+		$this->soyad=$scopusBilgi['author-retrieval-response'][0]['author-profile']['preferred-name']['surname'];
 	return true;	
 	}
 	
@@ -156,5 +162,4 @@ class getSaidPublications {
 		}
 // echo $this->yayinlar;
 	}
-
 }
