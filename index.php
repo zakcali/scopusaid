@@ -35,7 +35,7 @@ Ad: <input type="text" name="ad" size="16"  id="ad" value="<?php echo $sa->ad;?>
 Soyad: <input type="text" name="soyad" size="20"  id="soyad" value="<?php echo $sa->soyad;?>"> 
 ORCID: <input type="text" name="ORCID" size="20"  id="ORCID" value="<?php echo $sa->authorOrcid;?>"><br>
 AuthorId: <input type="text" name="said" size="12"  id="said" value="<?php echo $sa->authorId;?>">  
-h-index: <input type="text" name="hindex" size="2"  id="hindex" value="<?php echo $sa->hindex;?>"> 
+h-index: <input type="text" name="hindex" size="2"  id="hindex" value="<?php echo $sa->shindex;?>"> 
 yayın sayısı: <input type="text" name="yayins" size="4"  id="yayins" value="<?php echo $sa->yayinS;?>"> 
 atif sayısı: <input type="text" name="atifs" size="4"  id="atifs" value="<?php echo $sa->atifS;?>"> <br>
 Listelenen yayın sayısı: <input type="text" name="sayi" size="6"  id="sayi" value="<?php echo $sa->sayi;?>">
