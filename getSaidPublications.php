@@ -7,7 +7,7 @@ class getSaidPublications {
 		$this->initialize();
 		}
 	function initialize () {
-		$this->authorId=''; $this->authorOrcid=''; $this->ad=''; $this->soyad=''; $this->yayinlar=''; $this->yayinS=''; $this->atifS=''; $this->hindex=''; $this->dikkat=''; 
+		$this->authorId=''; $this->authorOrcid=''; $this->ad=''; $this->soyad=''; $this->yayinlar=''; $this->yayinS=''; $this->atifS=''; $this->shindex=''; $this->dikkat=''; 
 		$this->sidDizi = array (); // scopus id bilinen bir kişinin yayınları
 		$this->sayi=0; $this->n=0;
 		}
@@ -68,7 +68,7 @@ class getSaidPublications {
 	if (isset($scopusBilgi['author-retrieval-response'][0]['coredata']['cited-by-count']))
 		$this->atifS=$scopusBilgi['author-retrieval-response'][0]['coredata']['cited-by-count'];
 	if (isset($scopusBilgi['author-retrieval-response'][0]['h-index'])) // enhanced or metrics view
-		$this->hindex=$scopusBilgi['author-retrieval-response'][0]['h-index'];
+		$this->shindex=$scopusBilgi['author-retrieval-response'][0]['h-index'];
 	if (isset($scopusBilgi['author-retrieval-response'][0]['author-profile']['preferred-name']['given-name']))
 		$this->ad=$scopusBilgi['author-retrieval-response'][0]['author-profile']['preferred-name']['given-name'];
 	if (isset($scopusBilgi['author-retrieval-response'][0]['author-profile']['preferred-name']['surname']))
